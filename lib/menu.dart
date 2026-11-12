@@ -5,13 +5,13 @@ class MyHomePage extends StatelessWidget {
 
 
   final String npm = "2506611326";
-  final String nama = "Ihsan";
+  final String nama = "Ihsan Rafi Ahmad";
   final String kelas = "PBP F";
 
   final List<ItemHomepage> items = [
-    ItemHomepage("View Projects", Icons.folder),
-    ItemHomepage("Add Project", Icons.add_circle),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage("View Projects", Icons.folder, Colors.blue),
+    ItemHomepage("Add Project", Icons.add_circle, Colors.red),
+    ItemHomepage("Logout", Icons.logout, Colors.green),
   ];
 
     @override
@@ -112,8 +112,9 @@ class InfoCard extends StatelessWidget {
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
@@ -124,7 +125,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {

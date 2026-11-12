@@ -12,6 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // TODO [Langkah 1]: Ganti judul 'Flutter Demo' menjadi nama aplikasimu,
+      //   misalnya 'MyPortfolio Mobile'.
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+      // TODO [Langkah 1-2]: Halaman utama diimpor dari lib/menu.dart (sudah).
+      //   Jika MyHomePage dijadikan `const`, ubah jadi `const MyHomePage()`.
       home: MyHomePage(),
     );
   }
