@@ -136,5 +136,9 @@ Hot Restart: Menghapus state aplikasi yang sedang berjalan dan memulai ulang apl
 
 Hot reload terkadang tidak dapat mendeteksi perubahan struktur tertentu atau gagal memperbarui state dengan benar. Sehingga hot restart atau full restart perlu dilakukan.
 
+DEKLARASI PENGGUNAAN AI:
+- Jelaskan apa yang diminta dari assignment ini
+- Buatkan TODOs di masing-masing file yang relevan disertai dengan instruksi yang jelas dan mudah dipahami
+- Tambhakan instruksi setup project secara lokal di readme
 
 
