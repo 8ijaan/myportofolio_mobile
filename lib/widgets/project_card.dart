@@ -21,7 +21,7 @@ class ItemCard extends StatelessWidget {
             );
 
           // Navigate ke halaman yang sesuai
-          if (item.name == "Add Project") {
+          if (item.name == "Tambah Project") {
             Navigator.push(
               context,
               MaterialPageRoute<void>(
