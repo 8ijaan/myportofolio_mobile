@@ -38,10 +38,7 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Home'),
             // Navigate to the portfolio home screen
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-              );
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),
           ListTile(
