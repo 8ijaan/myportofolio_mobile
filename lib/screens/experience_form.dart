@@ -158,7 +158,8 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                                 _startDate = picked;
                                 _startDateController.text =
                                     '${picked.day}/${picked.month}/${picked.year}';
-                                if (_endDate != null && _endDate!.isBefore(picked)) {
+                                if (_endDate != null &&
+                                    _endDate!.isBefore(picked)) {
                                   _endDate = null;
                                   _endDateController.clear();
                                 }
@@ -186,7 +187,8 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                           onTap: () async {
                             final picked = await showDatePicker(
                               context: context,
-                              initialDate: _endDate ?? _startDate ?? DateTime.now(),
+                              initialDate:
+                                  _endDate ?? _startDate ?? DateTime.now(),
                               firstDate: _startDate ?? DateTime(2000),
                               lastDate: DateTime.now(),
                             );
@@ -202,6 +204,75 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                       ),
                     ),
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsetsGeometry.all(8.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Experience Image Link',
+                      hintText: 'Experience Image Link',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onChanged: (String? value) {
+                    setState(() {
+                      _experienceImageLink = value!;
+                    });
+                  },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.indigo),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'Proyek berhasil ditambahkan!',
+                                ),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Nama Pengalaman: $_experienceName'),
+                                      Text('Deskripsi: $_description'),
+                                      Text('Kategori: $_category'),
+                                      Text('Dimulai pada: $_startDate'),
+                                      Text('Dimulai pada: $_endDate'),
+                                      Text('Tautan: $_experienceImageLink'),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      _formKey.currentState!.reset();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
