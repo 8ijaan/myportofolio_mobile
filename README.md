@@ -136,9 +136,59 @@ Hot Restart: Menghapus state aplikasi yang sedang berjalan dan memulai ulang apl
 
 Hot reload terkadang tidak dapat mendeteksi perubahan struktur tertentu atau gagal memperbarui state dengan benar. Sehingga hot restart atau full restart perlu dilakukan.
 
+### ASSIGNMENT 8: Reflective Question
+1. Explain the differences between Navigator.push(), Navigator.pushReplacement(), and Navigator.pop(). Which method opens the form from the action card? Explain how the Home option in the drawer takes the user back to the home screen.
+
+Cara kerja Navigator.push dan .pop() sama seperti stack pada umumnya,
+
+push(route) -> route akan ditambahkan di atas stack dan ditampilkan kepada user
+
+pop() -> route yang berada di paling atas stack di keluarkan, dan route dibawahnya akan ditampilkan kepada user
+
+pushReplacement() -> route yang berada di paling atas stack digantikan oleh route baru dan ditampilkan kepada user, route lama masih tetap.
+
+Ketika home button di leftDrawer ditekan, navigator akan melakukan pop() hingga route paling atas yaitu home.
+
+2. How does the arrangement of Scaffold, AppBar, and Drawer keep the page structure consistent? Give one example of the portfolio theme colors being used on more than one page.
+
+Scaffold adalah skeleton utama dari halaman-halaman yang ada. Scaffold memberikan konsistensi agar setiap halaman memiliki layout yang sama, yaitu: AppBar paling atas, dan Body dibawahnya.
+
+Drawer memberikan kemudahan untuk navigasi menu pada setiap halaman yang ada. Sehingga ketika Drawer diubah, maka perubahan itu berefek di semua halaman yang menggunakannya
+
+3. Why was this layout chosen for the form? Explain what the spacing and scrolling widgets do when screen space is limited.
+
+Column dipilih karena form paling wajar disusun ke bawah, sehingga mudah dibaca dari atas ke bawah di layar HP, sedangkan Row hanya dipakai pada dua field yang memang berpasangan, yaitu tanggal mulai dan tanggal berakhir.
+
+Seluruh field dibungkus dengan Form agar validasi cukup dilakukan dengan satu panggilan _formKey.currentState!.validate(), yang menjangkau semua TextFormField dan dropdown di bawahnya di mana pun posisinya, karena itu key dipasang pada Form dan bukan pada salah satu field. 
+
+Form ini memiliki sekitar 7 input ditambah tombol, lebih banyak dari yang muat dalam satu layar HP kecil, dan keyboard juga menutupi sekitar separuh layar saat mengetik, sehingga SingleChildScrollView digunakan agar form tetap bisa dipakai dengan cara di-scroll.
+
+4. What roles do GlobalKey<FormState>, validator, and validate() play when Save is pressed? Give one example of a value the form rejects and explain why choosing an input widget or keyboard type alone is insufficient.
+
+GlobalKey<FormState> (_formKey) adalah pegangan ke Form. Key dipasang pada Form, dan lewat key itulah tombol Save bisa memerintah form dari luar: _formKey.currentState! memberi akses ke FormState, yang mengenal semua field di dalam Form.
+
+validator adalah aturan milik tiap field. Isinya fungsi yang menerima teks field dan mengembalikan String?:
+- mengembalikan teks → field dianggap tidak valid, dan teks itu muncul merah di bawah field
+- mengembalikan null → field dianggap valid
+
+validate() adalah pemicunya. Method ini tidak punya aturan sendiri. Ia berkeliling ke semua field di bawah Form, memanggil validator masing-masing, lalu mengembalikan true hanya kalau semua validator mengembalikan null.
+
+Contoh nilai yang ditolak:
+Nama Experience berisi tiga spasi ("   "). Teksnya tidak kosong, tapi value.trim() menghapus spasi di ujung sehingga hasilnya string kosong, jadi isEmpty bernilai true. Validator mengembalikan pesan error dan dialog tidak muncul.
+
+Alasan mengapa Widget dan KeyboardType saja tidak cukup adalah:
+Widget dan keyboardType hanya mengatur cara pengguna memasukkan data, bukan apa yang boleh diterima
+
+Contoh tema portofolio yang digunakan berulang:
+* Colors.indigo pada project_form, experience_form, dan left_drawer
+
 DEKLARASI PENGGUNAAN AI:
 - Jelaskan apa yang diminta dari assignment ini
 - Buatkan TODOs di masing-masing file yang relevan disertai dengan instruksi yang jelas dan mudah dipahami
 - Tambhakan instruksi setup project secara lokal di readme
+- Bagaimana flownya jika ingin membuat experience_form dari awal
+- Cara mengimplementasikan kalender untuk memilih tanggal
+- Cara mengimplementasi layout yang diinginkan
+- Cek kondisi kode dan apa yang bisa diperbaiki
 
 
