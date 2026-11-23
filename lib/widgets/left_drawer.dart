@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 
@@ -48,12 +49,23 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Tambah Project'),
             // Navigate to the Add Project screen
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.pop(context);
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ProjectFormPage()),
               );
             },
           ),
+          ListTile(
+            title: const Text('Tambahkan Experience'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
+              );
+            }
+          )
         ],
       ),
     );
