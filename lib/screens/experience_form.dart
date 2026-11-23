@@ -146,6 +146,12 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                           ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Tanggal dimulai tidak boleh kosong!';
+                            }
+                            return null;
+                          },
                           onTap: () async {
                             final picked = await showDatePicker(
                               context: context,
