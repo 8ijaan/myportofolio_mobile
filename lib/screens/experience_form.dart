@@ -14,6 +14,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   String _description = "";
   String _category = "Full-Time"; // default
   String _experienceImageLink = "";
+
   final _endDateController = TextEditingController();
   final _startDateController = TextEditingController();
   DateTime? _startDate;
@@ -39,7 +40,11 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('Add Experience Form'))),
+      appBar: AppBar(
+        title: const Center(child: Text('Add Experience Form')),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
+      ),
       body: Center(
         child: Form(
           key: _formKey,
@@ -50,6 +55,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    maxLines: 5,
                     decoration: InputDecoration(
                       hintText: 'Nama Experience',
                       labelText: 'Nama Experience',
@@ -72,6 +78,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    maxLines: 5,
                     decoration: InputDecoration(
                       hintText: 'Deskripsi Experience',
                       labelText: 'Deskripsi Experience',
@@ -81,7 +88,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     ),
                     onChanged: (String? value) {
                       setState(() {
-                        _experienceName = value!;
+                        _description = value!;
                       });
                     },
                     // validator: (String? value) {
@@ -112,7 +119,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                         .toList(),
                     onChanged: (String? value) {
                       setState(() {
-                        _experienceName = value!;
+                        _category = value!;
                       });
                     },
                     validator: (String? value) {
@@ -151,6 +158,10 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                                 _startDate = picked;
                                 _startDateController.text =
                                     '${picked.day}/${picked.month}/${picked.year}';
+                                if (_endDate != null && _endDate!.isBefore(picked)) {
+                                  _endDate = null;
+                                  _endDateController.clear();
+                                }
                               });
                             }
                           },
@@ -175,8 +186,8 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                           onTap: () async {
                             final picked = await showDatePicker(
                               context: context,
-                              initialDate: _startDate ?? DateTime.now(),
-                              firstDate: DateTime(2000),
+                              initialDate: _endDate ?? _startDate ?? DateTime.now(),
+                              firstDate: _startDate ?? DateTime(2000),
                               lastDate: DateTime.now(),
                             );
                             if (picked != null) {
