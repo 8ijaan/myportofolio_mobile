@@ -74,6 +74,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                       if (value == null || value.trim().isEmpty) {
                         return "Nama Experience tidak boleh kosong!";
                       }
+                      return null;
                     },
                   ),
                 ),
@@ -128,6 +129,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                       if (value == null || value.trim().isEmpty) {
                         return "Kategori Experience tidak boleh kosong!";
                       }
+                      return null;
                     },
                   ),
                 ),
@@ -224,10 +226,10 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                       ),
                     ),
                     onChanged: (String? value) {
-                    setState(() {
-                      _experienceImageLink = value!;
-                    });
-                  },
+                      setState(() {
+                        _experienceImageLink = value!;
+                      });
+                    },
                   ),
                 ),
                 Align(

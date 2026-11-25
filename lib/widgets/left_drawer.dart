@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
-import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
+import 'package:provider/provider.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
+  /// Closes the drawer, then opens [page] only if the user is logged in.
+  Future<void> _openProtected(BuildContext context, Widget page) async {
+    // The drawer's context is gone once it closes, so use the navigator's.
+    final navigator = Navigator.of(context);
+    navigator.pop();
+
+    final loggedIn = await ensureLoggedIn(navigator.context);
+    if (!loggedIn) return;
+    navigator.push(MaterialPageRoute<void>(builder: (_) => page));
+  }
+
+  Future<void> _login(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    navigator.pop();
+    await ensureLoggedIn(navigator.context);
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final auth = context.read<AuthState>();
+    final messenger = ScaffoldMessenger.of(context);
+    Navigator.pop(context);
+
+    await auth.logout();
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('Logged out.')));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
+
     return Drawer(
       child: ListView(
         children: [
@@ -32,7 +64,6 @@ class LeftDrawer extends StatelessWidget {
               ],
             ),
           ),
-          // TODO: Add the navigation entries
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Home'),
@@ -45,24 +76,25 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Tambah Project'),
             // Navigate to the Add Project screen
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProjectFormPage()),
-              );
-            },
+            onTap: () => _openProtected(context, const ProjectFormPage()),
           ),
           ListTile(
+            leading: const Icon(Icons.work_outline),
             title: const Text('Tambahkan Experience'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
-              );
-            }
-          )
+            onTap: () => _openProtected(context, const ExperienceFormPage()),
+          ),
+          if (isLoggedIn)
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () => _logout(context),
+            )
+          else
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: const Text('Login'),
+              onTap: () => _login(context),
+            ),
         ],
       ),
     );
